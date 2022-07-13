@@ -1,69 +1,70 @@
-package Lesson3HW;
+package Lesson5HW;
 
-import java.util.Arrays;
+
+import java.io.*;
+import java.util.ArrayList;
+
 
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Задача про фрукты");
-        
-        Basket<Apple> basket1 = new Basket<>(new Apple(1.0f), 15);
-        Basket<Orange> basket2 = new Basket<>(new Orange(1.5f), 7);
-        Basket<Apple> basket3 = new Basket<>(new Apple(1.0f), 20);
+
+      System.out.println("****Вариант1****");
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("HW_5.csv"))) {
+            bw.write("Value1; Value2; Value3\n");
+            bw.write("100; 200; 123\n");
+            bw.write("300; 400; 500\n");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader("HW_5.csv"))) {
+            String s;
+            while ((s = br.readLine()) != null){
+                System.out.println(s);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("****Вариант2****");
+
+      ArrayList<AppData> appDataArrayList = new ArrayList<>();
+
+      AppData a1 = new AppData("Value1","Value2","Value3\n");
+      AppData a2 = new AppData("100","200","123\n");
+      AppData a3 = new AppData("300","400","500\n");
+
+     appDataArrayList.add(a1);
+     appDataArrayList.add(a2);
+     appDataArrayList.add(a3);
+
+        try (PrintWriter printWriter = new PrintWriter("HW_5_2.csv")) {
+            printWriter.println(appDataArrayList.toString().replaceAll("\\[|\\]|\\,", ""));
+            } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+        }
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("HW_5_2.csv"))) {
+            String temp;
+
+            while((temp = bufferedReader.readLine()) != null){
+                System.out.println(temp);
+               }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
-        System.out.println("Корзина №1" + basket1);
-        System.out.println("Корзина №3" + basket3);
-        System.out.println("Корзина №1 весит " + basket1.getMass());
-        System.out.println("Корзина №3 весит " + basket3.getMass());
-
-        System.out.println("Сравним веса корзины №1 и №2. Получим " + Basket.compare(basket1.getMass(), basket3.getMass()));
-
-        System.out.println("Пересыпем фрукты из Корзины №3 в Корзину №1, получим " + Basket.pour(basket3, basket1) + " фруктов в Корзине №1");
-        System.out.println("Корзина №3 " + basket3);
-        System.out.println("Корзина №1 " + basket1);
-        System.out.println("              ");
 
 
-        System.out.println("Задача на замену элементов массива местими");
-
-        String arr[] = new String[]  {"Winter", "Spring", "Summer", "Autumn"};
-        for (int i = 1; i < arr.length; i++)
-            i++;
-        System.out.println(Arrays.toString(arr));
-
-        changes(arr,3,1);
-        System.out.println(Arrays.toString(arr));
 
     }
+}
 
-     public static void changes (String arr[], int i, int x){
-         String tmp = arr[i];
-         arr[i] = arr[x];
-         arr[x] = tmp;
-     }
-
-
-    }
-
-/*
-1. Написать метод, который меняет два элемента массива местами (массив может быть любого ссылочного типа);
- 2. Задача:
-   Даны классы Fruit, Apple extends Fruit, Orange extends Fruit;
-     Класс Basket, в который можно складывать фрукты.
-        Коробки условно сортируются по типу фрукта,
-        поэтому в одну коробку нельзя сложить и яблоки, и апельсины;
-        Для хранения фруктов внутри коробки можно использовать ArrayList;
-        Сделать метод getWeight(), который высчитывает вес коробки,
-        зная вес одного фрукта и их количество: вес яблока – 1.0f,
-        апельсина – 1.5f (единицы измерения не важны);
-        Внутри класса Basket сделать метод compare(),
-       который позволяет сравнить текущую коробку с той,
-       которую подадут в compare() в качестве параметра. true – если их массы равны,
-        false в противоположном случае. Можно сравнивать коробки с яблоками и апельсинами;
-
-  *Написать метод, который позволяет пересыпать фрукты из текущей коробки в другую.
-   Помним про сортировку фруктов: нельзя яблоки высыпать в коробку с апельсинами.
-   Соответственно, в текущей коробке фруктов не остается,
-   а в другую перекидываются объекты, которые были в первой;
-        Не забываем про метод добавления фрукта в коробку.*/
